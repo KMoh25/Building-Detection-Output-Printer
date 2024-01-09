@@ -1,0 +1,19 @@
+var t = ee.FeatureCollection('GOOGLE/Research/open-buildings/v3/polygons');
+
+var t_065_070 = t.filter('confidence >= 0.65 && confidence < 0.7');
+var t_070_075 = t.filter('confidence >= 0.7 && confidence < 0.75');
+var t_gte_075 = t.filter('confidence >= 0.75');
+
+// Add the layers to the map
+Map.addLayer(t_065_070, { color: 'FF0000' }, 'Buildings confidence [0.65; 0.7)');
+Map.addLayer(t_070_075, { color: 'FFFF00' }, 'Buildings confidence [0.7; 0.75)');
+Map.addLayer(t_gte_075, { color: '00FF00' }, 'Buildings confidence >= 0.75');
+
+// Count the number of buildings within the geometry and print the result
+var buildingsWithingeometry = t.filterBounds(geometry);
+var totalBuildingsWithingeometry = buildingsWithingeometry.size();
+print('Total number of detected buildings within measured area:', totalBuildingsWithingeometry);
+
+// Set the center of the map
+Map.setCenter(49.205727, 11.235906, 7); // Set center 
+Map.setOptions('SATELLITE');
